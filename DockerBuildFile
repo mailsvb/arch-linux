@@ -1,0 +1,14 @@
+## mailsvb/arch-linux
+FROM archlinux/base
+MAINTAINER mailsvb <mailsvb@gmail.com>
+RUN pacman -Syu --noconfirm
+RUN pacman -S --noconfirm grep
+RUN find /usr/share/terminfo/. ! -name "*xterm*" ! -name "*screen*" ! -name "*screen*" -type f -delete
+RUN rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* /var/cache/pacman/pkg/* /usr/include/*
+RUN ls -d /usr/share/zoneinfo/* | egrep -v "UTC" | xargs rm -rf
+RUN pacman -Rs --noconfirm grep
+RUN pacman -Scc --noconfirm
+RUN find /. -name "*~" -type f -delete
+RUN rm -rf /var/lib/pacman/sync/* /tmp/*
+RUN ls /usr/lib/*.a | xargs rm -rf
+CMD /bin/bash
